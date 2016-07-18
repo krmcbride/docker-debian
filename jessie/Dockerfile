@@ -21,10 +21,7 @@ RUN apt-get update \
 
 # Bash enhancements
 RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git /root/.bash_it
-RUN /root/.bash_it/install.sh --none
-RUN bash -c "source /root/.bashrc \
-  && bash-it enable completion bash-it \
-  && bash-it enable alias general"
+RUN /root/.bash_it/install.sh --silent
 COPY bashrc /root/.bashrc
 COPY custom.aliases.bash /root/.bash_it/custom/
 COPY docker.theme.bash /root/.bash_it/themes/docker/
