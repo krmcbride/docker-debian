@@ -1,8 +1,8 @@
 FROM debian:jessie
 MAINTAINER Kevin McBride <krmcbride.io@gmail.com>
 
-RUN echo "America/Los_Angeles" > /etc/timezone
-RUN /usr/sbin/dpkg-reconfigure -f noninteractive tzdata
+RUN echo "America/Los_Angeles" > /etc/timezone \
+    && /usr/sbin/dpkg-reconfigure -f noninteractive tzdata
 
 # Install vim, git, curl, etc
 RUN apt-get update \
@@ -21,7 +21,7 @@ RUN apt-get update \
 
 # Bash enhancements
 RUN git clone --depth=1 https://github.com/Bash-it/bash-it.git /root/.bash_it
-RUN /root/.bash_it/install.sh --silent
+RUN /root/.bash_it/install.sh --none
 COPY bashrc /root/.bashrc
 COPY custom.aliases.bash /root/.bash_it/custom/
 COPY docker.theme.bash /root/.bash_it/themes/docker/
@@ -35,3 +35,6 @@ RUN mkdir /usr/src/app
 
 # Move to a better default working directory
 WORKDIR /root
+
+# Regurgitate the default command from the parent debian image
+CMD ["/bin/bash"]
